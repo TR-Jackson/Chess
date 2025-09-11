@@ -28,6 +28,10 @@ public class BoxController : MonoBehaviour
 
     void OnMouseDown()
     {
+        // temp
+        Debug.Log(transform.position);
+        //
+
         if (GameController.SelectedPiece != null && GameController.SelectedPiece.GetComponent<PieceController>().IsMoving() == true)
         {
             // Prevent clicks during movement
