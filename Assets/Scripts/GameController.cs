@@ -12,11 +12,19 @@ public class GameController : MonoBehaviour
     public GameObject SelectedPiece;
     public List<GameObject> PossibleMoves = new List<GameObject>();
     public bool WhiteTurn = true;
+    public bool OpponentAI = false;
+    public OpponentAI ai;
+    public GameObject StopAIButton;
+
 
     // Use this for initialization
     void Start()
     {
-
+        if (OpponentAI)
+        {
+            ai = FindFirstObjectByType<OpponentAI>();
+            ai.OnMoveChosen += HandleAIMove;
+        } 
     }
 
     // Update is called once per frame
@@ -25,9 +33,34 @@ public class GameController : MonoBehaviour
 
     }
 
+    void HandleAIMove(ChessState.Move move)
+    {
+        // runs on main thread (because OpponentAI invokes it in Update)
+        ApplyMoveToBoard(move);
+    }
+
+    void ApplyMoveToBoard(ChessState.Move move)
+    {
+        // your existing method that updates GameObjects, UI, etc.
+        Vector2 from = SquareToXY(move.from);
+        Vector2 to = SquareToXY(move.to);
+        SelectedPiece = GetBlackPieceAtPosition(from.x, from.y);
+        SelectedPiece.GetComponent<PieceController>().MovePiece(new Vector3(to.x, to.y, 0));
+    }
+
+    // Convert ChatGPT's coord system to coords used by original GitHub project
+    Vector2 SquareToXY(int square)
+    {
+        int file = square & 7;       // 0..7 for a..h
+        int rank = square >> 3;      // 0..7 for 1..8
+        float x = -3.5f + file;
+        float y = -3.5f + rank;
+        return new Vector2(x, y);
+    }
+
     public void SelectPiece(GameObject piece)
     {
-        if (piece.tag == "White" && WhiteTurn == true || piece.tag == "Black" && WhiteTurn == false)
+        if (piece.tag == "White" && WhiteTurn == true || piece.tag == "Black" && WhiteTurn == false && OpponentAI == false)
         {
             DeselectPiece();
             SelectedPiece = piece;
@@ -72,9 +105,25 @@ public class GameController : MonoBehaviour
         char col = (char) (65 + ((int) (x+3.5)));
         int row = (int) (y + 3.5 + 1);
         string coord = col.ToString() + row.ToString();
-        Debug.Log("Trying to find cell at coord: " + coord);
         return Board.transform.Find(coord).GetChild(0).gameObject;
     }
+
+    // Used for making AI's move
+    public GameObject GetBlackPieceAtPosition(float x, float y)
+    {
+        foreach (Transform child in BlackPieces.transform)
+        {
+            Vector3 pos = child.position;
+            if (pos.x == x && pos.y == y)
+            {
+                return child.gameObject;
+            }
+        }
+
+        return null; // no piece found at given coordinates
+    }
+
+
 
     public void UnhighlightPossibleMoves()
     {
@@ -162,6 +211,18 @@ public class GameController : MonoBehaviour
                 Checkmate();
             }
         }
+
+        // AI plays black's turn if AI opponent enabled
+        if (OpponentAI)
+        {
+            StopAIButton.GetComponent<StopAIButton>().setIsAIRunning(!WhiteTurn);
+        }
+
+        if (OpponentAI && !WhiteTurn)
+        {
+            GetComponent<OpponentAI>().MakeMove();
+        }
+
     }
 
     bool HasValidMoves(GameObject piece)
@@ -173,7 +234,6 @@ public class GameController : MonoBehaviour
         {
             if (pieceController.ValidateMovement(piece.transform.position, new Vector3(square.position.x, square.position.y, piece.transform.position.z), out encounteredEnemy))
             {
-                Debug.Log(piece + " on " + square);
                 return true;
             }
         }

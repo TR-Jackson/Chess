@@ -62,8 +62,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameController.cs" />
+    <Compile Include="Assets\Scripts\MCTS\ChessState.cs" />
+    <Compile Include="Assets\Scripts\OpponentAI.cs" />
     <Compile Include="Assets\Scripts\BoxController.cs" />
+    <Compile Include="Assets\Scripts\StopAIButton.cs" />
+    <Compile Include="Assets\Scripts\MCTS\GameTree.cs" />
     <Compile Include="Assets\Scripts\PieceController.cs" />
+    <Compile Include="Assets\Scripts\MCTS\Node.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

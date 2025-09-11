@@ -12,7 +12,7 @@ public class BoxController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        if (GameController == null) GameController = FindObjectOfType<GameController>();
+        if (GameController == null) GameController = FindFirstObjectByType<GameController>();
 
         string algebraicName = "";
         algebraicName += (char)(this.transform.position.x - LowestRankY + 'A');
@@ -28,9 +28,6 @@ public class BoxController : MonoBehaviour
 
     void OnMouseDown()
     {
-        // temp
-        Debug.Log(transform.position);
-        //
 
         if (GameController.SelectedPiece != null && GameController.SelectedPiece.GetComponent<PieceController>().IsMoving() == true)
         {
