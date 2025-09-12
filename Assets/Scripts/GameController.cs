@@ -68,7 +68,6 @@ public class GameController : MonoBehaviour
             // Highlight
             SelectedPiece.GetComponent<SpriteRenderer>().color = Color.yellow;
 
-            // Highlight possible moves
             HighlightPossibleMoves();
 
             // Put above other pieces
@@ -91,7 +90,7 @@ public class GameController : MonoBehaviour
                     if (SelectedPiece.GetComponent<PieceController>().ValidateMovement(SelectedPiece.transform.position, new Vector3(x, y, 0f), out encounteredEnemy))
                     {
                         GameObject possibleMoveBox = GetBoxAtPosition(x, y);
-                        possibleMoveBox.GetComponent<SpriteRenderer>().color = Color.yellow;
+                        possibleMoveBox.GetComponent<SpriteRenderer>().color = Color.softYellow;
                         PossibleMoves.Add(possibleMoveBox);
                     }
                 }
@@ -129,7 +128,8 @@ public class GameController : MonoBehaviour
     {
         foreach (GameObject box in PossibleMoves)
         {
-            box.GetComponent<SpriteRenderer>().color = Color.white;
+            if (box.transform.name.Contains("White")) box.GetComponent<SpriteRenderer>().color = new Color32(236, 230, 179, 255);
+            else box.GetComponent<SpriteRenderer>().color = Color.white;
         }
 
         PossibleMoves.Clear();
