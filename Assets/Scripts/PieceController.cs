@@ -302,7 +302,7 @@ public class PieceController : MonoBehaviour
         {
             foreach (Transform piece in WhitePieces.transform)
             {
-                if (piece.position.x == positionX && piece.position.y == positionY)
+                if (piece.localPosition.x == positionX && piece.localPosition.y == positionY)
                 {
                     return piece.gameObject;
                 }

@@ -87,7 +87,7 @@ public class GameController : MonoBehaviour
                 for (float y = -3.5f; y <= 3.5; y++)
                 {
                     GameObject encounteredEnemy = null;
-                    if (SelectedPiece.GetComponent<PieceController>().ValidateMovement(SelectedPiece.transform.position, new Vector3(x, y, 0f), out encounteredEnemy))
+                    if (SelectedPiece.GetComponent<PieceController>().ValidateMovement(SelectedPiece.transform.localPosition, new Vector3(x, y, 0f), out encounteredEnemy))
                     {
                         GameObject possibleMoveBox = GetBoxAtPosition(x, y);
                         possibleMoveBox.GetComponent<SpriteRenderer>().color = Color.softYellow;
