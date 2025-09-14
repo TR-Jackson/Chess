@@ -15,8 +15,8 @@ public class BoxController : MonoBehaviour
         if (GameController == null) GameController = FindFirstObjectByType<GameController>();
 
         string algebraicName = "";
-        algebraicName += (char)(this.transform.position.x - LowestRankY + 'A');
-        algebraicName += this.transform.position.y - LowestRankY + 1;
+        algebraicName += (char)(this.transform.parent.localPosition.x - LowestRankY + 'A');
+        algebraicName += this.transform.parent.localPosition.y - LowestRankY + 1;
         this.transform.parent.name = algebraicName;
     }
 
