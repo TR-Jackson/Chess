@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PieceController : MonoBehaviour
 {
@@ -312,7 +310,7 @@ public class PieceController : MonoBehaviour
         {
             foreach (Transform piece in BlackPieces.transform)
             {
-                if (piece.position.x == positionX && piece.position.y == positionY)
+                if (piece.localPosition.x == positionX && piece.localPosition.y == positionY)
                 {
                     return piece.gameObject;
                 }
@@ -328,28 +326,28 @@ public class PieceController : MonoBehaviour
 
         foreach (Transform piece in WhitePieces.transform)
         {
-            if ((direction == Direction.Horizontal && piece.position.x > Mathf.Min(pointA.x, pointB.x) && piece.position.x < Mathf.Max(pointA.x, pointB.x) && piece.position.y == pointA.y) ||
-                (direction == Direction.Vertical && piece.position.y > Mathf.Min(pointA.y, pointB.y) && piece.position.y < Mathf.Max(pointA.y, pointB.y) && piece.position.x == pointA.x))
+            if ((direction == Direction.Horizontal && piece.localPosition.x > Mathf.Min(pointA.x, pointB.x) && piece.localPosition.x < Mathf.Max(pointA.x, pointB.x) && piece.localPosition.y == pointA.y) ||
+                (direction == Direction.Vertical && piece.localPosition.y > Mathf.Min(pointA.y, pointB.y) && piece.localPosition.y < Mathf.Max(pointA.y, pointB.y) && piece.localPosition.x == pointA.x))
             {
                 count++;
             }
-            else if (direction == Direction.Diagonal && piece.position.x > Mathf.Min(pointA.x, pointB.x) && piece.position.x < Mathf.Max(pointA.x, pointB.x) &&
-                     ((pointA.y - pointA.x == pointB.y - pointB.x && piece.position.y - piece.position.x == pointA.y - pointA.x) ||
-                      (pointA.y + pointA.x == pointB.y + pointB.x && piece.position.y + piece.position.x == pointA.y + pointA.x)))
+            else if (direction == Direction.Diagonal && piece.localPosition.x > Mathf.Min(pointA.x, pointB.x) && piece.localPosition.x < Mathf.Max(pointA.x, pointB.x) &&
+                     ((pointA.y - pointA.x == pointB.y - pointB.x && piece.localPosition.y - piece.localPosition.x == pointA.y - pointA.x) ||
+                      (pointA.y + pointA.x == pointB.y + pointB.x && piece.localPosition.y + piece.localPosition.x == pointA.y + pointA.x)))
             {
                 count++;
             }
         }
         foreach (Transform piece in BlackPieces.transform)
         {
-            if ((direction == Direction.Horizontal && piece.position.x > Mathf.Min(pointA.x, pointB.x) && piece.position.x < Mathf.Max(pointA.x, pointB.x) && piece.position.y == pointA.y) ||
-                (direction == Direction.Vertical && piece.position.y > Mathf.Min(pointA.y, pointB.y) && piece.position.y < Mathf.Max(pointA.y, pointB.y) && piece.position.x == pointA.x))
+            if ((direction == Direction.Horizontal && piece.localPosition.x > Mathf.Min(pointA.x, pointB.x) && piece.localPosition.x < Mathf.Max(pointA.x, pointB.x) && piece.localPosition.y == pointA.y) ||
+                (direction == Direction.Vertical && piece.localPosition.y > Mathf.Min(pointA.y, pointB.y) && piece.localPosition.y < Mathf.Max(pointA.y, pointB.y) && piece.localPosition.x == pointA.x))
             {
                 count++;
             }
-            else if (direction == Direction.Diagonal && piece.position.x > Mathf.Min(pointA.x, pointB.x) && piece.position.x < Mathf.Max(pointA.x, pointB.x) &&
-                     ((pointA.y - pointA.x == pointB.y - pointB.x && piece.position.y - piece.position.x == pointA.y - pointA.x) ||
-                      (pointA.y + pointA.x == pointB.y + pointB.x && piece.position.y + piece.position.x == pointA.y + pointA.x)))
+            else if (direction == Direction.Diagonal && piece.localPosition.x > Mathf.Min(pointA.x, pointB.x) && piece.localPosition.x < Mathf.Max(pointA.x, pointB.x) &&
+                     ((pointA.y - pointA.x == pointB.y - pointB.x && piece.localPosition.y - piece.localPosition.x == pointA.y - pointA.x) ||
+                      (pointA.y + pointA.x == pointB.y + pointB.x && piece.localPosition.y + piece.localPosition.x == pointA.y + pointA.x)))
             {
                 count++;
             }
@@ -374,7 +372,8 @@ public class PieceController : MonoBehaviour
             foreach (Transform piece in WhitePieces.transform)
             {
                 // If piece is not potentially captured
-                if (piece.position.x != potentialPosition.x || piece.position.y != potentialPosition.y) {
+                if (piece.localPosition.x != potentialPosition.x || piece.localPosition.y != potentialPosition.y)
+                {
                     if (piece.GetComponent<PieceController>().ValidateMovement(piece.position, kingPosition, out encounteredEnemy, true))
                     {
                         Debug.Log("Black King is in check by: " + piece);
@@ -390,7 +389,7 @@ public class PieceController : MonoBehaviour
             foreach (Transform piece in BlackPieces.transform)
             {
                 // If piece is not potentially captured
-                if (piece.position.x != potentialPosition.x || piece.position.y != potentialPosition.y)
+                if (piece.localPosition.x != potentialPosition.x || piece.localPosition.y != potentialPosition.y)
                 {
                     if (piece.GetComponent<PieceController>().ValidateMovement(piece.position, kingPosition, out encounteredEnemy, true))
                     {
