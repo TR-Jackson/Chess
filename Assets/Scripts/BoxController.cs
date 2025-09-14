@@ -35,7 +35,7 @@ public class BoxController : MonoBehaviour
 
         if (GameController.SelectedPiece != null)
         {
-            GameController.SelectedPiece.GetComponent<PieceController>().MovePiece(this.transform.localPosition);
+            GameController.SelectedPiece.GetComponent<PieceController>().MovePiece(this.transform.parent.localPosition);
         }
     }
 }

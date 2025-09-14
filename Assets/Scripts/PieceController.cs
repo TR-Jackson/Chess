@@ -74,7 +74,7 @@ public class PieceController : MonoBehaviour
                 }
                 else if ((this.tag == "White" && GameController.SelectedPiece.tag == "Black") || (this.tag == "Black" && GameController.SelectedPiece.tag == "White"))
                 {
-                    GameController.SelectedPiece.GetComponent<PieceController>().MovePiece(this.transform.position);
+                    GameController.SelectedPiece.GetComponent<PieceController>().MovePiece(this.transform.localPosition);
                 }
             }
         }
@@ -120,7 +120,7 @@ public class PieceController : MonoBehaviour
             this.moved = true;
 
             this.newPositionY = newPosition;
-            this.newPositionY.x = this.transform.position.x;
+            this.newPositionY.x = this.transform.localPosition.x;
             this.newPositionX = newPosition;
             MovingY = true; // Start movement
 
@@ -361,20 +361,20 @@ public class PieceController : MonoBehaviour
         bool isInCheck = false;
 
         // Temporarily move piece to the wanted position
-        Vector3 currentPosition = this.transform.position;
-        this.transform.SetPositionAndRotation(potentialPosition, this.transform.rotation);
+        Vector3 currentPosition = this.transform.localPosition;
+        this.transform.SetLocalPositionAndRotation(potentialPosition, this.transform.localRotation);
 
         GameObject encounteredEnemy;
 
         if (this.tag == "Black")
         {
-            Vector3 kingPosition = BlackPieces.transform.Find("Black King").position;
+            Vector3 kingPosition = BlackPieces.transform.Find("Black King").localPosition;
             foreach (Transform piece in WhitePieces.transform)
             {
                 // If piece is not potentially captured
                 if (piece.localPosition.x != potentialPosition.x || piece.localPosition.y != potentialPosition.y)
                 {
-                    if (piece.GetComponent<PieceController>().ValidateMovement(piece.position, kingPosition, out encounteredEnemy, true))
+                    if (piece.GetComponent<PieceController>().ValidateMovement(piece.localPosition, kingPosition, out encounteredEnemy, true))
                     {
                         Debug.Log("Black King is in check by: " + piece);
                         isInCheck = true;
@@ -385,13 +385,13 @@ public class PieceController : MonoBehaviour
         }
         else if (this.tag == "White")
         {
-            Vector3 kingPosition = WhitePieces.transform.Find("White King").position;
+            Vector3 kingPosition = WhitePieces.transform.Find("White King").localPosition;
             foreach (Transform piece in BlackPieces.transform)
             {
                 // If piece is not potentially captured
                 if (piece.localPosition.x != potentialPosition.x || piece.localPosition.y != potentialPosition.y)
                 {
-                    if (piece.GetComponent<PieceController>().ValidateMovement(piece.position, kingPosition, out encounteredEnemy, true))
+                    if (piece.GetComponent<PieceController>().ValidateMovement(piece.localPosition, kingPosition, out encounteredEnemy, true))
                     {
                         Debug.Log("White King is in check by: " + piece);
                         isInCheck = true;
@@ -402,7 +402,7 @@ public class PieceController : MonoBehaviour
         }
 
         // Move back to the real position
-        this.transform.SetPositionAndRotation(currentPosition, this.transform.rotation);
+        this.transform.SetLocalPositionAndRotation(currentPosition, this.transform.localRotation);
         return isInCheck;
     }
 
@@ -410,8 +410,8 @@ public class PieceController : MonoBehaviour
     {
         if (MovingY == true)
         {
-            this.transform.SetPositionAndRotation(Vector3.Lerp(this.transform.position, newPositionY, Time.deltaTime * MoveSpeed), this.transform.rotation);
-            if (this.transform.position == newPositionY)
+            this.transform.SetLocalPositionAndRotation(Vector3.Lerp(this.transform.localPosition, newPositionY, Time.deltaTime * MoveSpeed), this.transform.localRotation);
+            if (this.transform.localPosition == newPositionY)
             {
                 MovingY = false;
                 MovingX = true;
@@ -419,10 +419,10 @@ public class PieceController : MonoBehaviour
         }
         if (MovingX == true)
         {
-            this.transform.SetPositionAndRotation(Vector3.Lerp(this.transform.position, newPositionX, Time.deltaTime * MoveSpeed), this.transform.rotation);
-            if (this.transform.position == newPositionX)
+            this.transform.SetLocalPositionAndRotation(Vector3.Lerp(this.transform.localPosition, newPositionX, Time.deltaTime * MoveSpeed), this.transform.localRotation);
+            if (this.transform.localPosition == newPositionX)
             {
-                this.transform.SetPositionAndRotation(newPositionX, this.transform.rotation);
+                this.transform.SetLocalPositionAndRotation(newPositionX, this.transform.localRotation);
                 MovingX = false;
                 if (GameController.SelectedPiece != null)
                 {
@@ -437,10 +437,10 @@ public class PieceController : MonoBehaviour
     {
         if (MovingY == true)
         {
-            this.transform.SetPositionAndRotation(Vector3.Lerp(this.transform.position, newPositionX, Time.deltaTime * MoveSpeed), this.transform.rotation);
-            if (this.transform.position == newPositionX)
+            this.transform.SetLocalPositionAndRotation(Vector3.Lerp(this.transform.localPosition, newPositionX, Time.deltaTime * MoveSpeed), this.transform.localRotation);
+            if (this.transform.localPosition == newPositionX)
             {
-                this.transform.SetPositionAndRotation(newPositionX, this.transform.rotation);
+                this.transform.SetLocalPositionAndRotation(newPositionX, this.transform.localRotation);
                 MovingY = false;
                 MovingX = false;
                 if (GameController.SelectedPiece != null)
