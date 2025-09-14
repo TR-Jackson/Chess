@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BoxController : MonoBehaviour
 {
@@ -37,7 +35,7 @@ public class BoxController : MonoBehaviour
 
         if (GameController.SelectedPiece != null)
         {
-            GameController.SelectedPiece.GetComponent<PieceController>().MovePiece(this.transform.position);
+            GameController.SelectedPiece.GetComponent<PieceController>().MovePiece(this.transform.localPosition);
         }
     }
 }

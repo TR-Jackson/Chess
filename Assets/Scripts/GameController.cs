@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -24,7 +21,7 @@ public class GameController : MonoBehaviour
         {
             ai = FindFirstObjectByType<OpponentAI>();
             ai.OnMoveChosen += HandleAIMove;
-        } 
+        }
     }
 
     // Update is called once per frame
@@ -71,9 +68,9 @@ public class GameController : MonoBehaviour
             HighlightPossibleMoves();
 
             // Put above other pieces
-            Vector3 newPosition = SelectedPiece.transform.position;
+            Vector3 newPosition = SelectedPiece.transform.localPosition;
             newPosition.z = -1;
-            SelectedPiece.transform.SetPositionAndRotation(newPosition, SelectedPiece.transform.rotation);
+            SelectedPiece.transform.SetLocalPositionAndRotation(newPosition, SelectedPiece.transform.localRotation);
         }
     }
 
@@ -101,8 +98,8 @@ public class GameController : MonoBehaviour
 
     public GameObject GetBoxAtPosition(float x, float y)
     {
-        char col = (char) (65 + ((int) (x+3.5)));
-        int row = (int) (y + 3.5 + 1);
+        char col = (char)(65 + ((int)(x + 3.5)));
+        int row = (int)(y + 3.5 + 1);
         string coord = col.ToString() + row.ToString();
         return Board.transform.Find(coord).GetChild(0).gameObject;
     }
@@ -146,9 +143,9 @@ public class GameController : MonoBehaviour
             UnhighlightPossibleMoves();
 
             // Put back on the same level as other pieces
-            Vector3 newPosition = SelectedPiece.transform.position;
+            Vector3 newPosition = SelectedPiece.transform.localPosition;
             newPosition.z = 0;
-            SelectedPiece.transform.SetPositionAndRotation(newPosition, SelectedPiece.transform.rotation);
+            SelectedPiece.transform.SetLocalPositionAndRotation(newPosition, SelectedPiece.transform.localRotation);
 
             SelectedPiece = null;
         }

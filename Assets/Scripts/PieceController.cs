@@ -84,8 +84,8 @@ public class PieceController : MonoBehaviour
     {
         GameObject encounteredEnemy = null;
 
-        newPosition.z = this.transform.position.z;
-        this.oldPosition = this.transform.position;
+        newPosition.z = this.transform.localPosition.z;
+        this.oldPosition = this.transform.localPosition;
 
         if (castling || ValidateMovement(oldPosition, newPosition, out encounteredEnemy))
         {
